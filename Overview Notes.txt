@@ -1,0 +1,21 @@
+Overview of the project
+
+3 main components:
+    1) drawing (Michael)
+    2) saving/loading and rendering/exporting (Andres)
+    3) playback (Will)
+    4) GUI (Dalton)
+    5) timeline (Giner)
+
+- playback component should be able to play forwards and backwards
+- playback should allow user to control speed of playback
+- rendering/exporting should allow user to control speed of the animation
+- rendering/exporting should allow user to choose between GIF and MP4 formats
+
+- drawing is black/white/grey, with before- and after-frames having a colored tint and a lowered opacity (ex: before green and after blue)
+- drawing should allow user to import a custom background image
+    note: the program should be able to use a color background as long as the overlay function does not consider it (in other words, the overlay function only uses the user's drawings, not the background)
+- saving/loading will create a zip file containing pngs of the user's drawings and an optional background
+- the drawings should be stored in a vector of Image objects, which is kept in a class that interfaces with the rest of the program and enforces thread safety
+
+Next Meeting: Friday at 4!
