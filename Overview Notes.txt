@@ -1,3 +1,5 @@
+11/18/2014
+
 Overview of the project
 
 3 main components:
@@ -19,3 +21,19 @@ Overview of the project
 - the drawings should be stored in a vector of Image objects, which is kept in a class that interfaces with the rest of the program and enforces thread safety
 
 Next Meeting: Friday at 4!
+
+
+11/21/2014
+
+- drawing should have 5 canvas objects, one for the current image, one for the current frame, one for before, one for after, and two in the background (not seen by the user). When the user moves forward or backward
+- there should be a button that switches between drawing mode and preview mode. when the user switches, the canvas gets swapped with the preview interface or vise-versa.
+
+- Will has written a backend for playback and is going to build a graphical frontend
+- Michael will implement double buffering on the canvas
+- Dalton is going to modify the GUI so that:
+    - the user can see the boundaries of the canvas
+    - the buttons will have icons in stead of words
+    - fix the circle drawing code
+- Andres will implement rendering to mp4 and loading the project from a zip file
+
+- The short term goal is to get each person's subsystem connected to make a working (albeit incomplete) whole
