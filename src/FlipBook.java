@@ -10,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -18,7 +20,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class FlipBook extends Application {
 	
@@ -31,6 +36,13 @@ public class FlipBook extends Application {
 	double iy;
 	double fx;
 	double fy;
+	
+	Image newlab = new Image (getClass().getResourceAsStream("newIcon.png"));
+	Image savelab = new Image (getClass().getResourceAsStream("saveIcon.png"));
+	Image fdlab = new Image (getClass().getResourceAsStream("fdIcon.png"));
+	Image linelab = new Image (getClass().getResourceAsStream("lineIcon.png"));
+	Image circlelab = new Image (getClass().getResourceAsStream("circleIcon.png"));
+	Image eraselab = new Image (getClass().getResourceAsStream("eraseIcon.png"));
 	
 	Vector xvals = new Vector();
 	Vector yvals = new Vector();
@@ -47,28 +59,50 @@ public class FlipBook extends Application {
 
 	@Override
 	public void start(Stage primarystage) {
-		primarystage.setTitle("Testing Title");
-		Button newbtn = new Button("New");
-		Button savebtn = new Button("Save");
-		Button fdbtn = new Button("Free Draw");
-		Button linebtn = new Button("Line");
-		Button circlebtn = new Button("Circle");
-		Button erasebtn = new Button("Erase");
+		primarystage.setTitle("Flipbook Animator");
 		
+		Button newbtn = new Button("New");
+		newbtn.setGraphic(new ImageView(newlab));
+		newbtn.setTooltip(new Tooltip("New slide"));
+		
+		Button savebtn = new Button("Save");
+		savebtn.setGraphic(new ImageView(savelab));
+		savebtn.setTooltip(new Tooltip("Save current animation"));
+		
+		Button fdbtn = new Button("Free Draw");
+		fdbtn.setGraphic(new ImageView(fdlab));
+		fdbtn.setTooltip(new Tooltip("Free draw tool"));
+
+		Button linebtn = new Button("Line");
+		linebtn.setGraphic(new ImageView(linelab));
+		linebtn.setTooltip(new Tooltip("Line tool"));
+
+		Button circlebtn = new Button("Circle");
+		circlebtn.setGraphic(new ImageView(circlelab));
+		circlebtn.setTooltip(new Tooltip("Circle tool"));
+
+		Button erasebtn = new Button("Erase");
+		erasebtn.setGraphic(new ImageView(eraselab));
+		erasebtn.setTooltip(new Tooltip("Eraser tool"));
+
 		HBox btnbox = new HBox();
 		btnbox.getChildren().addAll(newbtn,savebtn,fdbtn,linebtn,circlebtn,erasebtn);
 		
-		Canvas canvas = new Canvas(400,400);
+		Canvas canvas = new Canvas(484,412);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.setFill(Color.WHITE);
+		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		
 		GridPane grid = new GridPane();
 		grid.setConstraints(btnbox,1,1);
 		grid.setConstraints(canvas,1,2);
 		grid.getChildren().addAll(btnbox,canvas);
 		
-		Group g1 = new Group();
-		g1.getChildren().add(grid);
-		primarystage.setScene(new Scene(g1));
+//		Group g1 = new Group();
+//		g1.getChildren().add(grid);
+		Scene scene = new Scene(grid);
+		scene.getStylesheets().add("flipbookStyle.css");
+		primarystage.setScene(new Scene(scene));
 		primarystage.setWidth(500);
 		primarystage.setHeight(500);
 		primarystage.show();
@@ -150,6 +184,9 @@ public class FlipBook extends Application {
 //				System.out.println("This is pixel X: " + e.getX());
 //				System.out.println("This is pixel Y: " + e.getY());
 				
+				ix = (double) xvals.firstElement();
+				iy = (double) yvals.firstElement();
+				
 				if(FD == true) {
 					gc.setLineWidth(5);
 					gc.setStroke(Color.BLACK);
@@ -159,6 +196,11 @@ public class FlipBook extends Application {
 					gc.setStroke(Color.WHITE);
 					gc.setLineWidth(5);
 					gc.strokeLine(x,y,x,y);
+				}
+				if(L == true){
+					gc.setStroke(Color.BLACK);
+					gc.setLineWidth(5);
+					gc.strokeLine(ix, iy, ix, iy);
 				}
 			}
 		});
