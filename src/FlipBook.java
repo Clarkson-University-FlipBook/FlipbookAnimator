@@ -1,3 +1,10 @@
+/**
+* Flipbook.java - Create an animation from a series of drawn images.
+* @author Michael Tillotson
+* @author Dalton Patterson
+* @author William Havelin
+*/
+
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -28,19 +35,25 @@ import javafx.scene.image.ImageView;
 
 public class FlipBook extends Application {
 	
+	/**
+	* Boolean values to determine what button is pressed.
+	*/
 	public boolean FD = false;
 	public boolean L = false;
 	public boolean C = false;
 	public boolean E = false;
 	
+	/**
+	* The initial (x,y) point (ix and iy) and the final (x,y) point (fx and fy)
+	*/
 	double ix;
 	double iy;
 	double fx;
 	double fy;
 
-
-	
-
+	/**
+	* Images that will be the icons of the different buttons
+	*/
 	Image newlab = new Image (getClass().getResourceAsStream("newIcon.png"));
 	Image savelab = new Image (getClass().getResourceAsStream("saveIcon.png"));
 	Image fdlab = new Image (getClass().getResourceAsStream("fdIcon.png"));
@@ -53,9 +66,15 @@ public class FlipBook extends Application {
 	Playback playback = new Playback(this, new ArrayList<Image>());
 	ImageView player = new ImageView(eraselab);
 	
+	/**
+	* The vector that hold the x values and y values of mouse respectively
+	*/
 	Vector xvals = new Vector();
 	Vector yvals = new Vector();
 	
+	/**
+	* Resets the vector that contains all the mouse points
+	*/
 	public void vreset()
 	{
 		xvals.removeAllElements();
@@ -70,11 +89,13 @@ public class FlipBook extends Application {
 		player.setImage(img);
 	}
 
+	/**
+	 Run the program
+	* @param The stage that we are working on
+	*/
 	@Override
 	public void start(Stage primarystage) {
 		primarystage.setTitle("Flipbook Animator");
-		
-//		Rectangle filler = new Rectangle(0,0,484,40);
 		
 		Button newbtn = new Button();
 		newbtn.setGraphic(new ImageView(newlab));
@@ -129,7 +150,9 @@ public class FlipBook extends Application {
 		primarystage.show();
 		
 		
-		
+		/**
+		* When the New button is pressed, Does nothing.
+		*/
 		newbtn.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		        System.out.println("New button placeholder");
@@ -140,6 +163,9 @@ public class FlipBook extends Application {
 		    }
 		});
 		
+		/**
+		* When the Save button is pressed, Does nothing.
+		*/
 		savebtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
 				System.out.println("Save button placeholder");
@@ -150,6 +176,9 @@ public class FlipBook extends Application {
 			}
 		});
 		
+		/**
+		* When the Free Draw button is pressed, set the Free Draw boolean to true
+		*/
 		fdbtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
 				System.out.println("Free Draw button placeholder");
@@ -161,6 +190,9 @@ public class FlipBook extends Application {
 			}
 		});
 		
+		/**
+		* When the Line button is pressed, set the Line boolean to true
+		*/
 		linebtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
 				System.out.println("Line button placeholder");
@@ -172,6 +204,9 @@ public class FlipBook extends Application {
 			}
 		});
 		
+		/**
+		* When the Circle button is pressed, set the Circle boolean to true
+		*/
 		circlebtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
 				System.out.println("Circle button placeholder");
@@ -183,6 +218,9 @@ public class FlipBook extends Application {
 			}
 		});
 		
+		/**
+		* When the Erase button is pressed, set the Erase boolean to true
+		*/
 		erasebtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
 				System.out.println("Erase button placeholder");
@@ -194,6 +232,9 @@ public class FlipBook extends Application {
 			}
 		});
 		
+		/**
+		 * When the Play button is press, Play
+		 */
 		playbtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
 				System.out.println("Playback button placeholder");
@@ -212,6 +253,9 @@ public class FlipBook extends Application {
 			}
 		});
 		
+		/**
+		* When the mouse is clicked, draw on the canvas depending on the set boolean value
+		*/
 		canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,
 		new EventHandler<MouseEvent>() {
 			@Override
@@ -243,6 +287,9 @@ public class FlipBook extends Application {
 			}
 		});
 		
+		/**
+		* When the mouse button is released, draw on the canvas depending on the set boolean value
+		*/
 		canvas.addEventHandler(MouseEvent.MOUSE_RELEASED,
 		new EventHandler<MouseEvent>() {
 			@Override
@@ -273,10 +320,5 @@ public class FlipBook extends Application {
 				}
 			}
 		});
-		
-		
-		
-		
-		
 	}
 }
