@@ -1,3 +1,4 @@
+
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,14 +23,16 @@ public class SaveAndRender {
         try (ZipOutputStream out = new ZipOutputStream(
                 new FileOutputStream(dest))) {
             for (int i = 0; i < images.size(); i++)
-                cachedImage = zipImage(images.get(i), "Page_" + i, out, cachedImage);
+                cachedImage = zipImage(images.get(i), "Page_" + i, out,
+                        cachedImage);
             if (background.isPresent())
                 zipImage(background.get(), "background", out, cachedImage);
         }
     }
 
     private static BufferedImage zipImage(Image image, String fname,
-            ZipOutputStream out, BufferedImage cachedImaged) throws IOException {
+            ZipOutputStream out, BufferedImage cachedImaged)
+            throws IOException {
         ZipEntry entry = new ZipEntry(fname);
         out.putNextEntry(entry);
         cachedImaged = SwingFXUtils.fromFXImage(image, cachedImaged);
@@ -42,8 +45,9 @@ public class SaveAndRender {
             File dest, int speed, boolean loop) throws FileNotFoundException,
             IOException {
         BufferedImage cachedImage = overlay(images.get(0), background, null);
-        try (GifSequenceWriter writer = new GifSequenceWriter(new FileImageOutputStream(dest),
-                cachedImage.getType(), speed, loop)) {
+        try (GifSequenceWriter writer = new GifSequenceWriter(
+                new FileImageOutputStream(dest), cachedImage.getType(), speed,
+                loop)) {
             writer.writeToSequence(cachedImage);
             for (int i = 1; i < images.size(); i++) {
                 cachedImage = overlay(images.get(i), background, cachedImage);

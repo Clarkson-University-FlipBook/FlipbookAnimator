@@ -121,23 +121,20 @@ public class GifSequenceWriter implements AutoCloseable {
      * Returns an existing child node, or creates and returns a new child node
      * (if the requested node does not exist).
      *
-     * @param rootNode the <tt>IIOMetadataNode</tt> to search for the child
+     * @param root the <tt>IIOMetadataNode</tt> to search for the child
      * node.
-     * @param nodeName the name of the child node.
+     * @param name the name of the child node.
      *
      * @return the child node, if found or a new node created with the given
      * name.
      */
-    private static IIOMetadataNode getNode(
-            IIOMetadataNode rootNode,
-            String nodeName) {
-        int nNodes = rootNode.getLength();
+    private static IIOMetadataNode getNode(IIOMetadataNode root, String name) {
+        int nNodes = root.getLength();
         for (int i = 0; i < nNodes; i++)
-            if (rootNode.item(i).getNodeName().compareToIgnoreCase(nodeName)
-                    == 0)
-                return ((IIOMetadataNode) rootNode.item(i));
-        IIOMetadataNode node = new IIOMetadataNode(nodeName);
-        rootNode.appendChild(node);
-        return (node);
+            if (root.item(i).getNodeName().compareToIgnoreCase(name) == 0)
+                return (IIOMetadataNode) root.item(i);
+        IIOMetadataNode node = new IIOMetadataNode(name);
+        root.appendChild(node);
+        return node;
     }
 }
