@@ -102,7 +102,7 @@ public class FlipBook extends Application {
 //		g1.getChildren().add(grid);
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add("flipbookStyle.css");
-		primarystage.setScene(new Scene(scene));
+		primarystage.setScene(scene);
 		primarystage.setWidth(500);
 		primarystage.setHeight(500);
 		primarystage.show();
