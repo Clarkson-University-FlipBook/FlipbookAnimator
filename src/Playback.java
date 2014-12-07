@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Rectangle;
 
 /**
  * @author Will 
@@ -18,13 +19,15 @@ public class Playback extends AnimationTimer{
 	private long timeLeft;
 	private ArrayList<Image> frameList;
 	private boolean isPaused = false;
+	private FlipBook gui;
 	
 	/**
 	 * The default constructor initializes the framelist
 	 * @param frameList the list of frames
 	 */
-	public Playback( ArrayList<Image> frameList){
+	public Playback(FlipBook gui, ArrayList<Image> frameList){
 		this.frameList = frameList;
+		this.gui = gui;
 	}
 	
 	/**
@@ -32,7 +35,9 @@ public class Playback extends AnimationTimer{
 	 * @param index the index to start at
 	 */
 	public void setPlayback(int index){
-		this.frameList = frameList;
+		if(frameList.size()==0){
+			frameList.add(new Image (getClass().getResourceAsStream("fdIcon.png")));
+		}
  		currentFrameIndex = index;
 		lastTime = System.currentTimeMillis();
 		speed = 1.0; // DEFAULT TO BE CHANGED LATER
@@ -80,12 +85,12 @@ public class Playback extends AnimationTimer{
 		}
 		if(index >= frameList.size()){
 			currentFrameIndex = frameList.size()-1;
-			//tell GUI to change image
+			gui.displayImage(frameList.get(currentFrameIndex));
 			isPaused = true;
 			return;
 		}
 		currentFrameIndex = index;
-		//tell GUI to change image
+		gui.displayImage(frameList.get(currentFrameIndex));
 		resetTimeLeft();
 	}
 	
