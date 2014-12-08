@@ -394,6 +394,17 @@ public class FlipBook extends Application {
             }
         });
 
+
+        canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        double x = e.getX();
+                        double y = e.getY();
+                        xvals.add(x);
+                        yvals.add(y);
+                    }
+                });
         /**
          * When the mouse is clicked, draw on the canvas depending on the set
          * boolean value
