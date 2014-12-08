@@ -120,8 +120,8 @@ public class FlipBook extends Application {
         primarystage.setTitle("Flipbook Animator");
 
         Button loadbtn = new Button();
+        loadbtn.setGraphic(new ImageView(loadlab));
         loadbtn.setTooltip(new Tooltip("Load program"));
-        loadbtn.setGraphic(new ImageView());
 
         Button newbtn = new Button();
         newbtn.setGraphic(new ImageView(newlab));
@@ -132,8 +132,8 @@ public class FlipBook extends Application {
         savebtn.setTooltip(new Tooltip("Save current animation"));
 
         Button exportbtn = new Button();
-        exportbtn.setTooltip(new Tooltip("Save to zip file"));
         exportbtn.setGraphic(new ImageView(exportlab));
+        exportbtn.setTooltip(new Tooltip("Save to zip file"));
 
         Button fdbtn = new Button();
         fdbtn.setGraphic(new ImageView(fdlab));
@@ -156,12 +156,13 @@ public class FlipBook extends Application {
         playbtn.setTooltip(new Tooltip("Switch to playback view"));
 
         Button backbtn = new Button();
-        backbtn.setTooltip(new Tooltip("Go back a frame"));
         backbtn.setGraphic(new ImageView(backlab));
+        backbtn.setTooltip(new Tooltip("Go back a frame"));
 
         Button fwdbtn = new Button();
-        fwdbtn.setTooltip(new Tooltip("Go foward a frame"));
         fwdbtn.setGraphic(new ImageView(fwdlab));
+        fwdbtn.setTooltip(new Tooltip("Go foward a frame"));
+        
 
         HBox btnbox = new HBox();
         btnbox.getChildren().addAll(loadbtn, newbtn, savebtn, exportbtn, fdbtn, linebtn, circlebtn, erasebtn, playbtn, backbtn, fwdbtn);
