@@ -36,6 +36,8 @@ import javafx.scene.image.WritableImage;
 
 public class FlipBook extends Application {
 	private ArrayList<Image> frameList = new ArrayList<Image>();
+	private int frameIndex = 0;
+	
 	private final int PROGRAM_WIDTH = 700; 
 	private final int CANVAS_WIDTH = PROGRAM_WIDTH - 16;
 	private final int PROGRAM_HEIGHT = 700; 
@@ -131,12 +133,12 @@ public class FlipBook extends Application {
 		playbtn.setTooltip(new Tooltip("Switch to playback view"));
 		
 		Button backbtn = new Button();
-		
-		backbtn.setTooltop(new Tooltop("Go back a frame"));
+		backbtn.setTooltip(new Tooltip("Go back a frame"));
+		backbtn.setGraphic(new ImageView(playlab));
 		
 		Button fwdbtn = new Button();
-		
 		fwdbtn.setTooltip(new Tooltip("Go foward a frame"));
+		fwdbtn.setGraphic(new ImageView(playlab));
 		
 		HBox btnbox = new HBox();
 		btnbox.getChildren().addAll(newbtn,savebtn,fdbtn,linebtn,circlebtn,erasebtn,playbtn,backbtn,fwdbtn);
@@ -189,12 +191,18 @@ public class FlipBook extends Application {
 		savebtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
 				WritableImage tempFrame = new WritableImage(CANVAS_WIDTH, CANVAS_HEIGHT);
+				System.out.println("The index is " + frameIndex);
 				canvas.snapshot(null, tempFrame);
-				frameList.add(tempFrame);
+				if(frameIndex < frameList.size()-1)
+					frameList.set(frameIndex, tempFrame);
+				else
+					frameList.add(frameIndex, tempFrame);
+				frameIndex++;
 				FD = false;
 				L = false;
 				C = false;
 				E = false;
+				//System.out.println("The index was " + frameIndex);
 			}
 		});
 		
@@ -284,6 +292,10 @@ public class FlipBook extends Application {
 				C = false;
 				E = true;
 				vreset();
+				if(frameIndex > 0){
+					frameIndex--;
+				}
+				System.out.println("The index is " + frameIndex);
 			}
 		});
 		
@@ -294,6 +306,10 @@ public class FlipBook extends Application {
 				C = false;
 				E = true;
 				vreset();
+				if(frameIndex < frameList.size()-1){
+					frameIndex++;
+				}
+				System.out.println("The index is " + frameIndex);
 			}
 		});
 		
