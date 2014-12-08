@@ -160,6 +160,8 @@ public class FlipBook extends Application {
 				L = false;
 				C = false;
 				E = false;
+				gc.setFill(Color.WHITE);
+				gc.fillRect(0, 0, 400, 400);
 		    }
 		});
 		
