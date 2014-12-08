@@ -210,6 +210,8 @@ public class FlipBook extends Application {
                 } catch (IOException ex) {
                     showErrorDialog(primarystage);
                 }
+                frameIndex = 0;
+                drawImage(canvas.getGraphicsContext2D(), frameList.get(0));
             }
         });
 
