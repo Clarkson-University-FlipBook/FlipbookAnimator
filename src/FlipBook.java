@@ -130,8 +130,16 @@ public class FlipBook extends Application {
 		playbtn.setGraphic(new ImageView(playlab));
 		playbtn.setTooltip(new Tooltip("Switch to playback view"));
 		
+		Button backbtn = new Button();
+		
+		backbtn.setTooltop(new Tooltop("Go back a frame"));
+		
+		Button fwdbtn = new Button();
+		
+		fwdbtn.setTooltip(new Tooltip("Go foward a frame"));
+		
 		HBox btnbox = new HBox();
-		btnbox.getChildren().addAll(newbtn,savebtn,fdbtn,linebtn,circlebtn,erasebtn,playbtn);
+		btnbox.getChildren().addAll(newbtn,savebtn,fdbtn,linebtn,circlebtn,erasebtn,playbtn,backbtn,fwdbtn);
 		
 		
 		Canvas canvas = new Canvas(CANVAS_WIDTH,CANVAS_HEIGHT);
@@ -266,6 +274,26 @@ public class FlipBook extends Application {
 					canvas.setVisible(true);
 					player.setVisible(false);
 				}
+			}
+		});
+		
+		backbtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override public void handle(ActionEvent e) {
+				FD = false;
+				L = false;
+				C = false;
+				E = true;
+				vreset();
+			}
+		});
+		
+		fwdbtn.setOnAction(new EventHandler<ActionEvent>() {
+			@Override public void handle(ActionEvent e) {
+				FD = false;
+				L = false;
+				C = false;
+				E = true;
+				vreset();
 			}
 		});
 		
