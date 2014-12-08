@@ -11,5 +11,9 @@
 }
 
 .button:pressed{
+	-fx-background-color: rgb(140,140,140);
+}
+
+.button:focused{
 	-fx-background-color: rgb(160,160,160);
 }
