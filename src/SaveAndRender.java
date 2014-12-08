@@ -28,9 +28,9 @@ public class SaveAndRender {
         try (ZipOutputStream out = new ZipOutputStream(
                 new FileOutputStream(dest))) {
             for (int i = 0; i < images.size(); i++)
-                cached = zipImage(images.get(i), PREFIX + i, out, cached);
+                cached = zipImage(images.get(i), PREFIX + i + ".png", out, cached);
             if (background.isPresent())
-                zipImage(background.get(), "background", out, cached);
+                zipImage(background.get(), "background.png", out, cached);
         }
     }
 
