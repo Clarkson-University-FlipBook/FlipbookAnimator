@@ -71,8 +71,8 @@ public class SaveAndRender {
         return cachedImage;
     }
 
-    public static List<Image> load(String fname) throws FileNotFoundException,
-            IOException {
+    public static List<Image> load(String fname) throws
+            FileNotFoundException, IOException {
         ArrayList<Image> images = new ArrayList<>();
         try (ZipInputStream in = new ZipInputStream(
                 new FileInputStream(fname))) {

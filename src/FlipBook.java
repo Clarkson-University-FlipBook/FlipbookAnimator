@@ -6,8 +6,13 @@
  * @author Dalton Patterson
  * @author William Havelin
  */
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -28,8 +33,10 @@ import javafx.scene.image.WritableImage;
 
 public class FlipBook extends Application {
 
-    private final ArrayList<Image> frameList = new ArrayList<Image>();
+    private final ArrayList<Image> frameList = new ArrayList<>();
     private int frameIndex = 0;
+    private static final String RENDER_FILE = "render.gif";
+    private static final String ZIP_FILE = "fb_project.zip";
 
     private final int PROGRAM_WIDTH = 700;
     private final int CANVAS_WIDTH = PROGRAM_WIDTH - 16;
@@ -96,6 +103,10 @@ public class FlipBook extends Application {
         PixelReader reader = img.getPixelReader();
         gc.getPixelWriter().setPixels(0, 0, w, h, reader, 0, 0);
     }
+    
+    private static void showErrorDialog() {
+        
+    }
 
     /**
      * Run the program
@@ -107,8 +118,8 @@ public class FlipBook extends Application {
         primarystage.setTitle("Flipbook Animator");
 
         Button loadbtn = new Button();
-        loadbtn.setToolTip(new Tooltip("Load program"));
-        loadbtn.setGraphic(new ImageView();
+        loadbtn.setTooltip(new Tooltip("Load program"));
+        loadbtn.setGraphic(new ImageView());
         
         Button newbtn = new Button();
         newbtn.setGraphic(new ImageView(newlab));
@@ -120,7 +131,7 @@ public class FlipBook extends Application {
         
         Button exportbtn = new Button();
         exportbtn.setTooltip(new Tooltip("Save to zip file"));
-        exportbtn.setGraphic(new ImageView(exportlab);
+        exportbtn.setGraphic(new ImageView(exportlab));
 
         Button fdbtn = new Button();
         fdbtn.setGraphic(new ImageView(fdlab));
@@ -189,6 +200,12 @@ public class FlipBook extends Application {
                 C = false;
                 E = false;
                 vreset();
+                frameList.clear();
+                try {
+                    frameList.addAll(SaveAndRender.load(ZIP_FILE));
+                } catch (IOException ex) {
+                    showErrorDialog();
+                }
             }
         });
          
@@ -224,7 +241,13 @@ public class FlipBook extends Application {
                 L = false;
                 C = false;
                 E = false;
-                //System.out.println("The index was " + frameIndex);
+                File dest = new File(ZIP_FILE);
+                Optional<Image> background = Optional.empty();
+                try {
+                    SaveAndRender.saveProgress(frameList, background, dest);
+                } catch (IOException ex) {
+                    showErrorDialog();
+                }
             }
         });
         
@@ -237,6 +260,13 @@ public class FlipBook extends Application {
                 C = false;
                 E = false;
                 vreset();
+                File dest = new File(RENDER_FILE);
+                Optional<Image> background = Optional.empty();
+                try {
+                    SaveAndRender.renderGif(frameList, background, dest, 200, true);
+                } catch (IOException ex) {
+                    showErrorDialog();
+                }
             }
         });
 
