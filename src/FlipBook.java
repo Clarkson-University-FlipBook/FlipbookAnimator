@@ -134,7 +134,7 @@ public class FlipBook extends Application {
 
         Button exportbtn = new Button();
         exportbtn.setGraphic(new ImageView(exportlab));
-        exportbtn.setTooltip(new Tooltip("Save to zip file"));
+        exportbtn.setTooltip(new Tooltip("Exports files to a gif"));
 
         Button fdbtn = new Button();
         fdbtn.setGraphic(new ImageView(fdlab));
