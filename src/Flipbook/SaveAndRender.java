@@ -1,3 +1,4 @@
+package Flipbook;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -12,8 +13,10 @@ import java.util.Optional;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
+
 import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 

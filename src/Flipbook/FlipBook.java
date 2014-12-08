@@ -1,3 +1,4 @@
+package Flipbook;
 
 /**
  * Flipbook.java - Create an animation from a series of drawn images.
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
