@@ -70,6 +70,7 @@ public class FlipBook extends Application {
     Image fwdlab = new Image(getClass().getResourceAsStream("Icons/nextIcon.png"));
     Image backlab = new Image(getClass().getResourceAsStream("Icons/prevIcon.png"));
     Image exportlab = new Image(getClass().getResourceAsStream("Icons/exportIcon.png"));
+    Image brushlab = new Image(getClass().getResourceAsStream("Icons/brushIcon.png"));
 
     Playback playback = new Playback(this, frameList);
     ImageView player = new ImageView();
@@ -353,6 +354,8 @@ public class FlipBook extends Application {
                 } else {
                     canvas.setVisible(true);
                     player.setVisible(false);
+                    playbtn.setGraphic(new ImageView(brushlab));
+                    playbtn.setTooltip(new Tooltip("Switch back to drawing"));
                 }
             }
         });
