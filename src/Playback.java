@@ -85,9 +85,7 @@ public class Playback extends AnimationTimer{
 			return;
 		}
 		if(index >= frameList.size()){
-			currentFrameIndex = frameList.size()-1;
-			gui.displayImage(frameList.get(currentFrameIndex));
-			isPaused = true;
+			setFrame(0);
 			return;
 		}
 		currentFrameIndex = index;
