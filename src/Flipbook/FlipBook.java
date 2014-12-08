@@ -6,16 +6,15 @@ package Flipbook;
  * @author Michael Tillotson
  * @author Dalton Patterson
  * @author William Havelin
+ * @author Andres Rivas
  */
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -165,13 +164,11 @@ public class FlipBook extends Application {
         Button fwdbtn = new Button();
         fwdbtn.setGraphic(new ImageView(fwdlab));
         fwdbtn.setTooltip(new Tooltip("Go foward a frame"));
-        
 
         HBox btnbox = new HBox();
         btnbox.getChildren().addAll(loadbtn, newbtn, savebtn, exportbtn, fdbtn, linebtn, circlebtn, erasebtn, playbtn, backbtn, fwdbtn);
 
         final Canvas canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-//		ImageView player = new ImageView(eraselab);
         final GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFill(Color.WHITE);
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -181,10 +178,8 @@ public class FlipBook extends Application {
         GridPane.setConstraints(player, 1, 2);
         grid.getChildren().addAll(btnbox, canvas, player);
 
-//		Group g1 = new Group();
-//		g1.getChildren().add(grid);
         Scene scene = new Scene(grid);
-        scene.getStylesheets().add("flipbookStyle.css");
+        scene.getStylesheets().add(getClass().getResource("flipbookStyle.css").toString());
         primarystage.setScene(scene);
         primarystage.setWidth(PROGRAM_WIDTH);
         primarystage.setHeight(PROGRAM_HEIGHT);
@@ -197,84 +192,72 @@ public class FlipBook extends Application {
         /**
          * When the New button is pressed, Does nothing.
          */
-        loadbtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                System.out.println("Load button placeholder");
-                FD = false;
-                L = true;
-                C = false;
-                E = false;
-                vreset();
-                frameList.clear();
-                try {
-                    frameList.addAll(SaveAndRender.load(ZIP_FILE));
-                } catch (IOException ex) {
-                    showErrorDialog(primarystage);
-                }
-                frameIndex = 0;
-                drawImage(canvas.getGraphicsContext2D(), frameList.get(0));
+        loadbtn.setOnAction((ActionEvent e) -> {
+            System.out.println("Load button placeholder");
+            FD = false;
+            L = true;
+            C = false;
+            E = false;
+            vreset();
+            frameList.clear();
+            try {
+                frameList.addAll(SaveAndRender.load(ZIP_FILE));
+            } catch (IOException ex) {
+                showErrorDialog(primarystage);
             }
+            frameIndex = 0;
+            drawImage(canvas.getGraphicsContext2D(), frameList.get(0));
         });
 
-        newbtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                gc.setFill(Color.WHITE);
-                gc.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-                FD = false;
-                L = false;
-                C = false;
-                E = false;
-                gc.setFill(Color.WHITE);
-                gc.fillRect(0, 0, 400, 400);
-            }
+        newbtn.setOnAction((ActionEvent e) -> {
+            gc.setFill(Color.WHITE);
+            gc.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            FD = false;
+            L = false;
+            C = false;
+            E = false;
+            gc.setFill(Color.WHITE);
+            gc.fillRect(0, 0, 400, 400);
         });
 
         /**
          * When the Save button is pressed, Does nothing.
          */
-        savebtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                WritableImage tempFrame = new WritableImage(CANVAS_WIDTH, CANVAS_HEIGHT);
-                System.out.println("The index is " + frameIndex);
-                canvas.snapshot(null, tempFrame);
-                if (frameIndex < frameList.size() - 1)
-                    frameList.set(frameIndex, tempFrame);
-                else
-                    frameList.add(frameIndex, tempFrame);
-                frameIndex++;
-                FD = false;
-                L = false;
-                C = false;
-                E = false;
-                File dest = new File(ZIP_FILE);
-                Optional<Image> background = Optional.empty();
-                try {
-                    SaveAndRender.saveProgress(frameList, background, dest);
-                } catch (IOException ex) {
-                    showErrorDialog(primarystage);
-                }
+        savebtn.setOnAction((ActionEvent e) -> {
+            WritableImage tempFrame = new WritableImage(CANVAS_WIDTH, CANVAS_HEIGHT);
+            System.out.println("The index is " + frameIndex);
+            canvas.snapshot(null, tempFrame);
+            if (frameIndex < frameList.size() - 1)
+                frameList.set(frameIndex, tempFrame);
+            else
+                frameList.add(frameIndex, tempFrame);
+            frameIndex++;
+            FD = false;
+            L = false;
+            C = false;
+            E = false;
+            File dest = new File(ZIP_FILE);
+            Optional<Image> background = Optional.empty();
+            try {
+                SaveAndRender.saveProgress(frameList, background, dest);
+            } catch (IOException ex) {
+                showErrorDialog(primarystage);
             }
         });
 
-        exportbtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                System.out.println("export button placeholder");
-                FD = false;
-                L = true;
-                C = false;
-                E = false;
-                vreset();
-                File dest = new File(RENDER_FILE);
-                Optional<Image> background = Optional.empty();
-                try {
-                    SaveAndRender.renderGif(frameList, background, dest, 200, true);
-                } catch (IOException ex) {
-                    showErrorDialog(primarystage);
-                }
+        exportbtn.setOnAction((ActionEvent e) -> {
+            System.out.println("export button placeholder");
+            FD = false;
+            L = true;
+            C = false;
+            E = false;
+            vreset();
+            File dest = new File(RENDER_FILE);
+            Optional<Image> background = Optional.empty();
+            try {
+                SaveAndRender.renderGif(frameList, background, dest, 200, true);
+            } catch (IOException ex) {
+                showErrorDialog(primarystage);
             }
         });
 
@@ -282,200 +265,166 @@ public class FlipBook extends Application {
          * When the Free Draw button is pressed, set the Free Draw boolean to
          * true
          */
-        fdbtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                System.out.println("Free Draw button placeholder");
-                FD = true;
-                L = false;
-                C = false;
-                E = false;
-                vreset();
-            }
+        fdbtn.setOnAction((ActionEvent e) -> {
+            System.out.println("Free Draw button placeholder");
+            FD = true;
+            L = false;
+            C = false;
+            E = false;
+            vreset();
         });
 
         /**
          * When the Line button is pressed, set the Line boolean to true
          */
-        linebtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                System.out.println("Line button placeholder");
-                FD = false;
-                L = true;
-                C = false;
-                E = false;
-                vreset();
-            }
+        linebtn.setOnAction((ActionEvent e) -> {
+            System.out.println("Line button placeholder");
+            FD = false;
+            L = true;
+            C = false;
+            E = false;
+            vreset();
         });
 
         /**
          * When the Circle button is pressed, set the Circle boolean to true
          */
-        circlebtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                System.out.println("Circle button placeholder");
-                FD = false;
-                L = false;
-                C = true;
-                E = false;
-                vreset();
-            }
+        circlebtn.setOnAction((ActionEvent e) -> {
+            System.out.println("Circle button placeholder");
+            FD = false;
+            L = false;
+            C = true;
+            E = false;
+            vreset();
         });
 
         /**
          * When the Erase button is pressed, set the Erase boolean to true
          */
-        erasebtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                System.out.println("Erase button placeholder");
-                FD = false;
-                L = false;
-                C = false;
-                E = true;
-                vreset();
-            }
+        erasebtn.setOnAction((ActionEvent e) -> {
+            System.out.println("Erase button placeholder");
+            FD = false;
+            L = false;
+            C = false;
+            E = true;
+            vreset();
         });
 
         /**
          * When the Play button is press, Play
          */
-        playbtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                System.out.println("Playback button placeholder");
-                FD = false;
-                L = false;
-                C = false;
-                E = false;
-                vreset();
-                if (canvas.isVisible()) {
-                    playback.setPlayback(0);
-                    canvas.setVisible(false);
-                    player.setVisible(true);
-                } else {
-                    canvas.setVisible(true);
-                    player.setVisible(false);
-                    playbtn.setGraphic(new ImageView(brushlab));
-                    playbtn.setTooltip(new Tooltip("Switch back to drawing"));
-                }
+        playbtn.setOnAction((ActionEvent e) -> {
+            System.out.println("Playback button placeholder");
+            FD = false;
+            L = false;
+            C = false;
+            E = false;
+            vreset();
+            if (canvas.isVisible()) {
+                playback.setPlayback(0);
+                canvas.setVisible(false);
+                player.setVisible(true);
+            } else {
+                canvas.setVisible(true);
+                player.setVisible(false);
+                playbtn.setGraphic(new ImageView(brushlab));
+                playbtn.setTooltip(new Tooltip("Switch back to drawing"));
             }
         });
 
-        backbtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                FD = false;
-                L = false;
-                C = false;
-                E = true;
-                vreset();
-                if (frameIndex > 0) {
-                    frameIndex--;
-                    Image currentImage = frameList.get(frameIndex);
-                    drawImage(canvas.getGraphicsContext2D(), currentImage);
-                }
-                System.out.println("The index is " + frameIndex);
+        backbtn.setOnAction((ActionEvent e) -> {
+            FD = false;
+            L = false;
+            C = false;
+            E = true;
+            vreset();
+            if (frameIndex > 0) {
+                frameIndex--;
+                Image currentImage = frameList.get(frameIndex);
+                drawImage(canvas.getGraphicsContext2D(), currentImage);
             }
+            System.out.println("The index is " + frameIndex);
         });
 
-        fwdbtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                FD = false;
-                L = false;
-                C = false;
-                E = true;
-                vreset();
-                if (frameIndex < frameList.size() - 1) {
-                    frameIndex++;
-                    Image currentImage = frameList.get(frameIndex);
-                    drawImage(canvas.getGraphicsContext2D(), currentImage);
-                }
-                System.out.println("The index is " + frameIndex);
+        fwdbtn.setOnAction((ActionEvent e) -> {
+            FD = false;
+            L = false;
+            C = false;
+            E = true;
+            vreset();
+            if (frameIndex < frameList.size() - 1) {
+                frameIndex++;
+                Image currentImage = frameList.get(frameIndex);
+                drawImage(canvas.getGraphicsContext2D(), currentImage);
             }
+            System.out.println("The index is " + frameIndex);
         });
 
-
-        canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent e) {
-                        double x = e.getX();
-                        double y = e.getY();
-                        xvals.add(x);
-                        yvals.add(y);
-                    }
-                });
+        canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, (MouseEvent e) -> {
+            double x = e.getX();
+            double y = e.getY();
+            xvals.add(x);
+            yvals.add(y);
+        });
         /**
          * When the mouse is clicked, draw on the canvas depending on the set
          * boolean value
          */
-        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent e) {
-                        double x = e.getX();
-                        double y = e.getY();
-                        xvals.add(x);
-                        yvals.add(y);
+        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED, (MouseEvent e) -> {
+            double x = e.getX();
+            double y = e.getY();
+            xvals.add(x);
+            yvals.add(y);
 
-                        ix = (double) xvals.get(0);
-                        iy = (double) yvals.get(0);
+            ix = (double) xvals.get(0);
+            iy = (double) yvals.get(0);
 
-                        if (FD == true) {
-                            gc.setLineWidth(5);
-                            gc.setStroke(Color.BLACK);
-                            gc.strokeLine(x, y, x, y);
-                        }
-                        if (E == true) {
-                            gc.setStroke(Color.WHITE);
-                            gc.setLineWidth(5);
-                            gc.strokeLine(x, y, x, y);
-                        }
+            if (FD == true) {
+                gc.setLineWidth(5);
+                gc.setStroke(Color.BLACK);
+                gc.strokeLine(x, y, x, y);
+            }
+            if (E == true) {
+                gc.setStroke(Color.WHITE);
+                gc.setLineWidth(5);
+                gc.strokeLine(x, y, x, y);
+            }
 
-                        if (L == true) {
-                            gc.setStroke(Color.BLACK);
-                            gc.setLineWidth(5);
-                            gc.strokeLine(ix, iy, ix, iy);
-                        }
-                    }
-                });
+            if (L == true) {
+                gc.setStroke(Color.BLACK);
+                gc.setLineWidth(5);
+                gc.strokeLine(ix, iy, ix, iy);
+            }
+        });
 
         /**
          * When the mouse button is released, draw on the canvas depending on
          * the set boolean value
          */
-        canvas.addEventHandler(MouseEvent.MOUSE_RELEASED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent e) {
-                        ix = (double) xvals.get(0);
-                        fx = (double) xvals.get(xvals.size() - 1);
-                        iy = (double) yvals.get(0);
-                        fy = (double) yvals.get(yvals.size() - 1);
+        canvas.addEventHandler(MouseEvent.MOUSE_RELEASED, (MouseEvent e) -> {
+            ix = (double) xvals.get(0);
+            fx = (double) xvals.get(xvals.size() - 1);
+            iy = (double) yvals.get(0);
+            fy = (double) yvals.get(yvals.size() - 1);
 
-                        if (L == true) {
-                            gc.setLineWidth(5);
-                            gc.setStroke(Color.BLACK);
-                            gc.strokeLine(ix, iy, fx, fy);
-                            vreset();
-                        }
-                        if (C == true) {
-                            gc.setLineWidth(5);
-                            gc.setStroke(Color.BLACK);
-                            double w = Math.abs(fx - ix);
-                            if (fx > ix) {
-                                gc.strokeOval(ix, iy, w, w);
-                                vreset();
-                            } else {
-                                gc.strokeOval(w, w, fx, fy);
-                                vreset();
-                            }
-                        }
-                    }
-                });
+            if (L == true) {
+                gc.setLineWidth(5);
+                gc.setStroke(Color.BLACK);
+                gc.strokeLine(ix, iy, fx, fy);
+                vreset();
+            }
+            if (C == true) {
+                gc.setLineWidth(5);
+                gc.setStroke(Color.BLACK);
+                double w = Math.abs(fx - ix);
+                if (fx > ix) {
+                    gc.strokeOval(ix, iy, w, w);
+                    vreset();
+                } else {
+                    gc.strokeOval(w, w, fx, fy);
+                    vreset();
+                }
+            }
+        });
     }
 }

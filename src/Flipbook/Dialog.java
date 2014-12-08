@@ -1,6 +1,6 @@
 package Flipbook;
+
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -44,11 +44,8 @@ public class Dialog extends Stage {
 
         final Button okButton = new Button("OK");
         okButton.setDefaultButton(true);
-        okButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                close();
-            }
+        okButton.setOnAction((ActionEvent event) -> {
+            close();
         });
 
         final GridPane rootPane = new GridPane();

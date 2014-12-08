@@ -10,6 +10,7 @@ package Flipbook;
 // Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
 //
 // Revisions by Andres Rivas
+
 import java.awt.image.RenderedImage;
 import java.io.IOException;
 import java.util.Iterator;
@@ -122,8 +123,7 @@ public class GifSequenceWriter implements AutoCloseable {
      * Returns an existing child node, or creates and returns a new child node
      * (if the requested node does not exist).
      *
-     * @param root the <tt>IIOMetadataNode</tt> to search for the child
-     * node.
+     * @param root the <tt>IIOMetadataNode</tt> to search for the child node.
      * @param name the name of the child node.
      *
      * @return the child node, if found or a new node created with the given
