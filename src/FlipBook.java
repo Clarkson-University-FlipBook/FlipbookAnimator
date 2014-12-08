@@ -134,7 +134,7 @@ public class FlipBook extends Application {
 
         Button exportbtn = new Button();
         exportbtn.setGraphic(new ImageView(exportlab));
-        exportbtn.setTooltip(new Tooltip("Save to zip file"));
+        exportbtn.setTooltip(new Tooltip("Exports files to a gif"));
 
         Button fdbtn = new Button();
         fdbtn.setGraphic(new ImageView(fdlab));
@@ -152,7 +152,7 @@ public class FlipBook extends Application {
         erasebtn.setGraphic(new ImageView(eraselab));
         erasebtn.setTooltip(new Tooltip("Eraser tool"));
 
-        Button playbtn = new Button();
+        final Button playbtn = new Button();
         playbtn.setGraphic(new ImageView(playlab));
         playbtn.setTooltip(new Tooltip("Switch to playback view"));
 
@@ -394,6 +394,17 @@ public class FlipBook extends Application {
             }
         });
 
+
+        canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        double x = e.getX();
+                        double y = e.getY();
+                        xvals.add(x);
+                        yvals.add(y);
+                    }
+                });
         /**
          * When the mouse is clicked, draw on the canvas depending on the set
          * boolean value

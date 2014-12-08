@@ -80,12 +80,8 @@ public class SaveAndRender {
             while ((entry = in.getNextEntry()) != null) {
                 String name = entry.getName();
                 if (name.startsWith(PREFIX)) {
-                    int start = PREFIX.length();
-                    int end = name.indexOf(".png");
-                    int index = Integer.parseInt(name.substring(start, end));
                     Image img = SwingFXUtils.toFXImage(ImageIO.read(in), null);
-                    images.ensureCapacity(index);
-                    images.set(index, img);
+                    images.add(img);
                 }
             }
         }
