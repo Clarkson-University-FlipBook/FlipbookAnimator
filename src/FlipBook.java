@@ -9,10 +9,8 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -78,15 +76,15 @@ public class FlipBook extends Application {
     /**
      * The vector that hold the x values and y values of mouse respectively
      */
-    Vector xvals = new Vector();
-    Vector yvals = new Vector();
+    List<Double> xvals = new ArrayList<>();
+    List<Double> yvals = new ArrayList<>();
 
     /**
      * Resets the vector that contains all the mouse points
      */
     public void vreset() {
-        xvals.removeAllElements();
-        yvals.removeAllElements();
+        xvals.clear();
+        yvals.clear();
     }
 
     public static void main(String[] args) {
@@ -103,9 +101,12 @@ public class FlipBook extends Application {
         PixelReader reader = img.getPixelReader();
         gc.getPixelWriter().setPixels(0, 0, w, h, reader, 0, 0);
     }
-    
-    private static void showErrorDialog() {
-        
+
+    private static void showErrorDialog(Stage stage) {
+        Dialog dialog = new Dialog("An Input/Output Error Occurred.");
+        dialog.setTitle("IO Error");
+        dialog.initOwner(stage);
+        dialog.show();
     }
 
     /**
@@ -114,13 +115,13 @@ public class FlipBook extends Application {
      * @param primarystage The stage that we are working on
      */
     @Override
-    public void start(Stage primarystage) {
+    public void start(final Stage primarystage) {
         primarystage.setTitle("Flipbook Animator");
 
         Button loadbtn = new Button();
         loadbtn.setTooltip(new Tooltip("Load program"));
         loadbtn.setGraphic(new ImageView());
-        
+
         Button newbtn = new Button();
         newbtn.setGraphic(new ImageView(newlab));
         newbtn.setTooltip(new Tooltip("New slide"));
@@ -128,7 +129,7 @@ public class FlipBook extends Application {
         Button savebtn = new Button();
         savebtn.setGraphic(new ImageView(savelab));
         savebtn.setTooltip(new Tooltip("Save current animation"));
-        
+
         Button exportbtn = new Button();
         exportbtn.setTooltip(new Tooltip("Save to zip file"));
         exportbtn.setGraphic(new ImageView(exportlab));
@@ -191,7 +192,7 @@ public class FlipBook extends Application {
         /**
          * When the New button is pressed, Does nothing.
          */
-         loadbtn.setOnAction(new EventHandler<ActionEvent>() {
+        loadbtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
                 System.out.println("Load button placeholder");
@@ -204,11 +205,11 @@ public class FlipBook extends Application {
                 try {
                     frameList.addAll(SaveAndRender.load(ZIP_FILE));
                 } catch (IOException ex) {
-                    showErrorDialog();
+                    showErrorDialog(primarystage);
                 }
             }
         });
-         
+
         newbtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -246,11 +247,11 @@ public class FlipBook extends Application {
                 try {
                     SaveAndRender.saveProgress(frameList, background, dest);
                 } catch (IOException ex) {
-                    showErrorDialog();
+                    showErrorDialog(primarystage);
                 }
             }
         });
-        
+
         exportbtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -265,7 +266,7 @@ public class FlipBook extends Application {
                 try {
                     SaveAndRender.renderGif(frameList, background, dest, 200, true);
                 } catch (IOException ex) {
-                    showErrorDialog();
+                    showErrorDialog(primarystage);
                 }
             }
         });
@@ -398,11 +399,11 @@ public class FlipBook extends Application {
                     public void handle(MouseEvent e) {
                         double x = e.getX();
                         double y = e.getY();
-                        xvals.addElement(x);
-                        yvals.addElement(y);
+                        xvals.add(x);
+                        yvals.add(y);
 
-                        ix = (double) xvals.firstElement();
-                        iy = (double) yvals.firstElement();
+                        ix = (double) xvals.get(0);
+                        iy = (double) yvals.get(0);
 
                         if (FD == true) {
                             gc.setLineWidth(5);
@@ -431,10 +432,10 @@ public class FlipBook extends Application {
                 new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent e) {
-                        ix = (double) xvals.firstElement();
-                        fx = (double) xvals.lastElement();
-                        iy = (double) yvals.firstElement();
-                        fy = (double) yvals.lastElement();
+                        ix = (double) xvals.get(0);
+                        fx = (double) xvals.get(xvals.size() - 1);
+                        iy = (double) yvals.get(0);
+                        fy = (double) yvals.get(yvals.size() - 1);
 
                         if (L == true) {
                             gc.setLineWidth(5);
