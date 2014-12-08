@@ -2,12 +2,15 @@
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
@@ -16,17 +19,18 @@ import javax.imageio.stream.FileImageOutputStream;
 
 public class SaveAndRender {
 
+    private static final String PREFIX = "Page_";
+
     public static void saveProgress(List<Image> images,
             Optional<Image> background, File dest) throws
             FileNotFoundException, IOException {
-        BufferedImage cachedImage = null;
+        BufferedImage cached = null;
         try (ZipOutputStream out = new ZipOutputStream(
                 new FileOutputStream(dest))) {
             for (int i = 0; i < images.size(); i++)
-                cachedImage = zipImage(images.get(i), "Page_" + i, out,
-                        cachedImage);
+                cached = zipImage(images.get(i), PREFIX + i, out, cached);
             if (background.isPresent())
-                zipImage(background.get(), "background", out, cachedImage);
+                zipImage(background.get(), "background", out, cached);
         }
     }
 
@@ -65,5 +69,24 @@ public class SaveAndRender {
         g.drawImage(SwingFXUtils.fromFXImage(fg, null), 0, 0, null);
         g.dispose();
         return cachedImage;
+    }
+
+    public static List<Image> load(String fname) throws FileNotFoundException,
+            IOException {
+        ArrayList<Image> images = new ArrayList<>();
+        try (ZipInputStream in = new ZipInputStream(
+                new FileInputStream(fname))) {
+            ZipEntry entry;
+            while ((entry = in.getNextEntry()) != null) {
+                String name = entry.getName();
+                if (name.startsWith(PREFIX)) {
+                    int index = Integer.parseInt(name.substring(PREFIX.length()));
+                    Image img = SwingFXUtils.toFXImage(ImageIO.read(in), null);
+                    images.ensureCapacity(index);
+                    images.set(index, img);
+                }
+            }
+        }
+        return images;
     }
 }
