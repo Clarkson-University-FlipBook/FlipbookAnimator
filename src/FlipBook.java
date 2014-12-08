@@ -61,6 +61,9 @@ public class FlipBook extends Application {
     Image circlelab = new Image(getClass().getResourceAsStream("Icons/circleIcon.png"));
     Image eraselab = new Image(getClass().getResourceAsStream("Icons/eraseIcon.png"));
     Image playlab = new Image(getClass().getResourceAsStream("Icons/playIcon.png"));
+    Image fwdlab = new Image(getClass().getResourceAsStream("Icons/nextIcon.png"));
+    Image backlab = new Image(getClass().getResourceAsStream("Icons/prevIcon.png"));
+    Image exportlab = new Image(getClass().getResourceAsStream("Icons/exportIcon.png"));
 
     Playback playback = new Playback(this, frameList);
     ImageView player = new ImageView();
@@ -103,6 +106,10 @@ public class FlipBook extends Application {
     public void start(Stage primarystage) {
         primarystage.setTitle("Flipbook Animator");
 
+        Button loadbtn = new Button();
+        loadbtn.setToolTip(new Tooltip("Load program"));
+        loadbtn.setGraphic(new ImageView();
+        
         Button newbtn = new Button();
         newbtn.setGraphic(new ImageView(newlab));
         newbtn.setTooltip(new Tooltip("New slide"));
@@ -110,6 +117,10 @@ public class FlipBook extends Application {
         Button savebtn = new Button();
         savebtn.setGraphic(new ImageView(savelab));
         savebtn.setTooltip(new Tooltip("Save current animation"));
+        
+        Button exportbtn = new Button();
+        exportbtn.setTooltip(new Tooltip("Save to zip file"));
+        exportbtn.setGraphic(new ImageView(exportlab);
 
         Button fdbtn = new Button();
         fdbtn.setGraphic(new ImageView(fdlab));
@@ -133,14 +144,14 @@ public class FlipBook extends Application {
 
         Button backbtn = new Button();
         backbtn.setTooltip(new Tooltip("Go back a frame"));
-        backbtn.setGraphic(new ImageView(playlab));
+        backbtn.setGraphic(new ImageView(backlab));
 
         Button fwdbtn = new Button();
         fwdbtn.setTooltip(new Tooltip("Go foward a frame"));
-        fwdbtn.setGraphic(new ImageView(playlab));
+        fwdbtn.setGraphic(new ImageView(fwdlab));
 
         HBox btnbox = new HBox();
-        btnbox.getChildren().addAll(newbtn, savebtn, fdbtn, linebtn, circlebtn, erasebtn, playbtn, backbtn, fwdbtn);
+        btnbox.getChildren().addAll(loadbtn, newbtn, savebtn, exportbtn, fdbtn, linebtn, circlebtn, erasebtn, playbtn, backbtn, fwdbtn);
 
         final Canvas canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 //		ImageView player = new ImageView(eraselab);
@@ -169,6 +180,18 @@ public class FlipBook extends Application {
         /**
          * When the New button is pressed, Does nothing.
          */
+         loadbtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                System.out.println("Load button placeholder");
+                FD = false;
+                L = true;
+                C = false;
+                E = false;
+                vreset();
+            }
+        });
+         
         newbtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
@@ -202,6 +225,18 @@ public class FlipBook extends Application {
                 C = false;
                 E = false;
                 //System.out.println("The index was " + frameIndex);
+            }
+        });
+        
+        exportbtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                System.out.println("export button placeholder");
+                FD = false;
+                L = true;
+                C = false;
+                E = false;
+                vreset();
             }
         });
 
