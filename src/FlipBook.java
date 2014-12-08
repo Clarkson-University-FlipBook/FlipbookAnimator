@@ -61,6 +61,7 @@ public class FlipBook extends Application {
     /**
      * Images that will be the icons of the different buttons
      */
+    Image loadlab = new Image(getClass().getResourceAsStream("Icons/loadIcon.png"));
     Image newlab = new Image(getClass().getResourceAsStream("Icons/newIcon.png"));
     Image savelab = new Image(getClass().getResourceAsStream("Icons/saveIcon.png"));
     Image fdlab = new Image(getClass().getResourceAsStream("Icons/fdIcon.png"));
@@ -191,7 +192,7 @@ public class FlipBook extends Application {
         /**
          * When the New button is pressed, Does nothing.
          */
-         loadbtn.setOnAction(new EventHandler<ActionEvent>() {
+        loadbtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
                 System.out.println("Load button placeholder");
