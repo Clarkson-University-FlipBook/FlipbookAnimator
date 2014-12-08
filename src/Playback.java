@@ -44,6 +44,7 @@ public class Playback extends AnimationTimer{
 		resetTimeLeft();
 		isPaused = false;
 		this.start();
+		setFrame(0);
 	}
 
 	/**

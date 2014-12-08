@@ -32,9 +32,14 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 
 public class FlipBook extends Application {
-	
+	private ArrayList<Image> frameList = new ArrayList<Image>();
+	private final int PROGRAM_WIDTH = 700; 
+	private final int CANVAS_WIDTH = PROGRAM_WIDTH - 16;
+	private final int PROGRAM_HEIGHT = 700; 
+	private final int CANVAS_HEIGHT = PROGRAM_HEIGHT - 88;
 	/**
 	* Boolean values to determine what button is pressed.
 	*/
@@ -54,17 +59,17 @@ public class FlipBook extends Application {
 	/**
 	* Images that will be the icons of the different buttons
 	*/
-	Image newlab = new Image (getClass().getResourceAsStream("newIcon.png"));
-	Image savelab = new Image (getClass().getResourceAsStream("saveIcon.png"));
-	Image fdlab = new Image (getClass().getResourceAsStream("fdIcon.png"));
-	Image linelab = new Image (getClass().getResourceAsStream("lineIcon.png"));
-	Image circlelab = new Image (getClass().getResourceAsStream("circleIcon.png"));
-	Image eraselab = new Image (getClass().getResourceAsStream("eraseIcon.png"));
-	Image playlab = new Image (getClass().getResourceAsStream("newIcon.png"));
+	Image newlab = new Image (getClass().getResourceAsStream("Icons/newIcon.png"));
+	Image savelab = new Image (getClass().getResourceAsStream("Icons/saveIcon.png"));
+	Image fdlab = new Image (getClass().getResourceAsStream("Icons/fdIcon.png"));
+	Image linelab = new Image (getClass().getResourceAsStream("Icons/lineIcon.png"));
+	Image circlelab = new Image (getClass().getResourceAsStream("Icons/circleIcon.png"));
+	Image eraselab = new Image (getClass().getResourceAsStream("Icons/eraseIcon.png"));
+	Image playlab = new Image (getClass().getResourceAsStream("Icons/playIcon.png"));
 	
 	
-	Playback playback = new Playback(this, new ArrayList<Image>());
-	ImageView player = new ImageView(eraselab);
+	Playback playback = new Playback(this, frameList);
+	ImageView player = new ImageView();
 	
 	/**
 	* The vector that hold the x values and y values of mouse respectively
@@ -129,7 +134,7 @@ public class FlipBook extends Application {
 		btnbox.getChildren().addAll(newbtn,savebtn,fdbtn,linebtn,circlebtn,erasebtn,playbtn);
 		
 		
-		Canvas canvas = new Canvas(484,412);
+		Canvas canvas = new Canvas(CANVAS_WIDTH,CANVAS_HEIGHT);
 //		ImageView player = new ImageView(eraselab);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setFill(Color.WHITE);
@@ -145,8 +150,12 @@ public class FlipBook extends Application {
 		Scene scene = new Scene(grid);
 		scene.getStylesheets().add("flipbookStyle.css");
 		primarystage.setScene(scene);
-		primarystage.setWidth(500);
-		primarystage.setHeight(500);
+		primarystage.setWidth(PROGRAM_WIDTH);
+		primarystage.setHeight(PROGRAM_HEIGHT);
+		primarystage.setMinHeight(PROGRAM_HEIGHT);
+		primarystage.setMinWidth(PROGRAM_WIDTH);
+		primarystage.setMaxHeight(PROGRAM_HEIGHT);
+		primarystage.setMaxWidth(PROGRAM_WIDTH);
 		primarystage.show();
 		
 		
@@ -155,7 +164,8 @@ public class FlipBook extends Application {
 		*/
 		newbtn.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
-		        System.out.println("New button placeholder");
+		    	gc.setFill(Color.WHITE);
+		    	gc.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 				FD = false;
 				L = false;
 				C = false;
@@ -170,7 +180,9 @@ public class FlipBook extends Application {
 		*/
 		savebtn.setOnAction(new EventHandler<ActionEvent>() {
 			@Override public void handle(ActionEvent e) {
-				System.out.println("Save button placeholder");
+				WritableImage tempFrame = new WritableImage(CANVAS_WIDTH, CANVAS_HEIGHT);
+				canvas.snapshot(null, tempFrame);
+				frameList.add(tempFrame);
 				FD = false;
 				L = false;
 				C = false;
@@ -248,9 +260,11 @@ public class FlipBook extends Application {
 				if(canvas.isVisible()){
 					playback.setPlayback(0);
 					canvas.setVisible(false);
+					player.setVisible(true);
 				}
 				else{
 					canvas.setVisible(true);
+					player.setVisible(false);
 				}
 			}
 		});
