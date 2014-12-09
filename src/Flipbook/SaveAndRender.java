@@ -22,6 +22,15 @@ public class SaveAndRender {
 
     private static final String PREFIX = "Page_";
 
+    /**
+     * Saves a list of images to a zip file.
+     *
+     * @param images A List of Image objects to be saved
+     * @param background An optional background image to be saved
+     * @param dest the destination file
+     * @throws FileNotFoundException
+     * @throws IOException if the file cannot be written
+     */
     public static void saveProgress(List<Image> images,
             Optional<Image> background, File dest) throws
             FileNotFoundException, IOException {
@@ -35,6 +44,18 @@ public class SaveAndRender {
         }
     }
 
+    /**
+     * Creates a ZipEntry for a single image and returns a cached copy of the
+     * image.
+     *
+     * @param image the image to be zipped
+     * @param fname the name of the ZipEntry
+     * @param out the output stream to which to write the image
+     * @param cachedImaged a cache that can be reused (to avoid unnecessary
+     * reallocation)
+     * @return the cached image
+     * @throws IOException if the image cannot be written to the output stream
+     */
     private static BufferedImage zipImage(Image image, String fname,
             ZipOutputStream out, BufferedImage cachedImaged)
             throws IOException {
@@ -46,6 +67,17 @@ public class SaveAndRender {
         return cachedImaged;
     }
 
+    /**
+     * Exports a sequence of images to an animated GIF file.
+     *
+     * @param images the frames that make up the animation
+     * @param background an optional background that will accompany each frame
+     * @param dest the destination file
+     * @param speed the speed of the animation, in milliseconds per frame
+     * @param loop whether to loop the animation
+     * @throws FileNotFoundException
+     * @throws IOException if the file cannot be written
+     */
     public static void renderGif(List<Image> images, Optional<Image> background,
             File dest, int speed, boolean loop) throws FileNotFoundException,
             IOException {
@@ -61,6 +93,17 @@ public class SaveAndRender {
         }
     }
 
+    /**
+     * Overlays a frame on top of a background image, and returns the resulting
+     * image. (Note, if there is no background, this method just returns a
+     * BufferedImage version of the original frame.)
+     *
+     * @param fg the frame (or foreground).
+     * @param bg the background
+     * @param cachedImage a cache to avoid unnecessary allocations
+     * @return a BufferedImage of the frame (on top of the background, if it is
+     * given)
+     */
     private static BufferedImage overlay(Image fg, Optional<Image> bg,
             BufferedImage cachedImage) {
         if (!bg.isPresent())
@@ -72,6 +115,14 @@ public class SaveAndRender {
         return cachedImage;
     }
 
+    /**
+     * Loads frames from a zip file.
+     *
+     * @param fname the zip file from which to read the frames
+     * @return a List of Image objects (each containing a single frame)
+     * @throws FileNotFoundException if the zip file cannot be found
+     * @throws IOException if the file cannot be read
+     */
     public static List<Image> load(String fname) throws
             FileNotFoundException, IOException {
         ArrayList<Image> images = new ArrayList<>();
