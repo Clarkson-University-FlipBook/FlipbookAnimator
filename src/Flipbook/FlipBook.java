@@ -6,7 +6,7 @@ package Flipbook;
  * @author Michael Tillotson
  * @author Dalton Patterson
  * @author William Havelin
- * @author Andres Rivas
+ * @author Andrés Rivas
  */
 import java.io.File;
 import java.io.IOException;
@@ -32,11 +32,21 @@ import javafx.scene.image.WritableImage;
 
 public class FlipBook extends Application {
 
+    /**
+     * Array that contains all the canvas images
+     */
     private final ArrayList<Image> frameList = new ArrayList<>();
     private int frameIndex = 0;
+    
+    /**
+     * Names for the exported gif and zip file
+     */
     private static final String RENDER_FILE = "render.gif";
     private static final String ZIP_FILE = "fb_project.zip";
-
+    
+    /**
+     * Preset window size
+     */
     private final int PROGRAM_WIDTH = 700;
     private final int CANVAS_WIDTH = PROGRAM_WIDTH - 16;
     private final int PROGRAM_HEIGHT = 700;
@@ -97,7 +107,12 @@ public class FlipBook extends Application {
     public void displayImage(Image img) {
         player.setImage(img);
     }
-
+    
+    /**
+     * Method to redraw the image to the canvas when using the foward and back buttons
+     * @param Graphics context that is drawing on the canvas
+     * @param Image that is to be drawn on the canvas
+     */
     private static void drawImage(GraphicsContext gc, Image img) {
         int w = (int) img.getWidth();
         int h = (int) img.getHeight();
