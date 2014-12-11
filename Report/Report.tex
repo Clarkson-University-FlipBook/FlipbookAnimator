@@ -104,12 +104,9 @@ Another challenge was getting the circles to work. In JavaFX, the \verb|strokeOv
 
 \subsection{Playback - Will Havelin}
 
-For me most of the challenges with this project were on the group communication and project management side as opposed to the technical. I found coordinating between different group members to be frustrating at times. In the end, much of the planned functionality was not able to be included in the final product, largely because of group coordination issues.  The biggest feature we had to scrap was the timeline subsystem which would allow the user to select which frame they are working on. This would have been a great feature for a system to have, but it was not essential.
+From a technical side, the main challenge was to designing my subsystem and helping design the entire system. Fairly late in the development process, I did some restructuring of subsystem in order to make it easier to integrate into the full system. It was not ideal to have to restructure my code, but I felt that it was justified because it made my subsystem have an interface that was much easier to work with.
 
-From a technical side, the main challenge was to designing my subsystem and helping design the entire
-system. Fairly late in the development process, I did some restructuring of subsystem in order to make
-it easier to integrate into the full system. It was not ideal to have to restructure my code, but I felt that
-it was justified because it made my subsystem have an interface that was much easier to work with.
+However, for me most of the challenges with this project were on the group communication and project management side as opposed to the technical. I found coordinating between different group members to be frustrating at times. In the classic book, \emph{The Mythical Man-Month: Essays on Software Engineering}, Fred Brooks argues that because ``software construction is inherently a systems effort - an exercise in complex interrelationships - communication effort is great." I completely agree with him on this point; during this project I spent considerable amounts of time and energy on communication.The nature of the field of software development is that work is done collaboratively. Thus, the challenges of project management and intergroup communication are challenges that I will have to deal with for the rest of my life, if I have a career in software development.
 
 \subsection{File Management -- Andr\'{e}s Rivas}
 
@@ -118,6 +115,12 @@ The File Management subsystem is responsible for tasks related to file input and
 For saving and loading the user's work, the zip file was chosen for simplicity, since the Java standard library already has functionality for reading from and writing to zip files. Since the frames are stored internally as a List of Image objects, the frames are simply written to zip entries named ``Page\_$i$.png," where $i$ is the index of the frame, and the entries are written to the zip file. Originally, the program was going to offer support for a background image that would be overlayed with the frames at the time of rendering. Therefore, the saving functionality was implemented so that, if a background image is supplied, then it is also saved to the zip file with the name ``background.png."
 
 The biggest challenge was finding and using suitable third-party code for rendering the GIF animation. Although libraries exist for manipulating animated GIFs in Java, the extensive features offered by those libraries were more than what was needed by the program, and learning to use the libraries properly would take more time than warranted. Instead, I implemented a function that uses a simple backend class called GifSequenceWriter, which is open source, freely distributable, and licensed under Creative Commons. It implements basic functionality and has a simple interface, making it ideal for this project. To make the class more compatible with my own code, I also made some revisions to the original source code, such as making the class implement the \verb|AutoCloseable| interface so that I could use the try-with-resources construct with the writer. Overall, though, the revisions were minor.
+
+\section{Frame Management -- Giner Pauling}
+
+\emph{Note: Although this subsystem was going to be implemented by Giner Pauling, this section of the report was written by Will Havelin.}
+
+For this project, we did not use any formal organizational structure or project management methodology. Instead, we worked using a democratic system of people volunteering for tasks. We also planned to meet regularly and discuss our progress. This system worked well as times, but at other times it ran into serious problems. During the Thanksgiving break, we were unable to meet, which meant that our progress basically stopped for an entire week, in the middle of our project. Also, we had no method of ensuring that team members finished their portions by the informal deadlines that we established during meetings. These problems, as well as others, meant that we were unable to fit all of the desired features into the final product.
 
 % uncomment to add a bibliography
 %\bibliography{sources}{}
