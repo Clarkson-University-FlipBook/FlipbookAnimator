@@ -339,13 +339,14 @@ public class FlipBook extends Application {
                 playback.setPlayback(0);
                 canvas.setVisible(false);
                 player.setVisible(true);
-                playbtn.setGraphic(new ImageView(playlab));
-                playbtn.setTooltip(new Tooltip("Switch to playback view"));
+                playbtn.setGraphic(new ImageView(brushlab));
+                playbtn.setTooltip(new Tooltip("Switch back to drawing"));
+                
             } else {
                 canvas.setVisible(true);
                 player.setVisible(false);
-                playbtn.setGraphic(new ImageView(brushlab));
-                playbtn.setTooltip(new Tooltip("Switch back to drawing"));
+                playbtn.setGraphic(new ImageView(playlab));
+                playbtn.setTooltip(new Tooltip("Switch to playback view"));
             }
         });
 

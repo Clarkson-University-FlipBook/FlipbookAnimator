@@ -37,7 +37,8 @@ public class Playback extends AnimationTimer {
      */
     public void setPlayback(int index) {
         if (frameList.isEmpty())
-            frameList.add(new Image(getClass().getResourceAsStream("fdIcon.png")));
+        	return;
+            //frameList.add(new Image(getClass().getResourceAsStream("Icons/fdIcon.png")));
         currentFrameIndex = index;
         lastTime = System.currentTimeMillis();
         speed = 1.0; // DEFAULT TO BE CHANGED LATER
